@@ -1,0 +1,30 @@
+{
+    "extends": ["@rocketseat/eslint-config/react"],
+    "plugins": ["simple-import-sort"],
+    "rules": {
+        "simple-import-sort/imports": "error",
+        "@typescript-eslint/no-unused-vars": [
+          "warn", 
+          {
+            "varsIgnorePattern": "^_",  
+            "argsIgnorePattern": "^_" 
+          }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+              "printWidth": 80,
+              "tabWidth": 4,
+              "singleQuote": true,
+              "trailingComma": "all",
+              "arrowParens": "always",
+              "semi": false
+            }
+          ]
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest"
+    }
+}
+
