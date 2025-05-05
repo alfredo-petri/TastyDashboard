@@ -8,7 +8,7 @@ import { router } from './routes'
 export function App() {
     return (
         <div className="flex h-screen items-center justify-center">
-            <Toaster position="top-right" />
+            <Toaster richColors />
             <RouterProvider router={router} />
         </div>
     )
