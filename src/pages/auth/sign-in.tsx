@@ -1,8 +1,22 @@
+import { useForm } from 'react-hook-form'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { SignInForm } from '@/schemas/sign-in/sign-in-form-schema'
 
 export const SignIn = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting },
+    } = useForm<SignInForm>()
+
+    const handleSignIn = async (data: SignInForm) => {
+        console.log(data)
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+
     return (
         <div className="p-8">
             <div className="flex w-[350px] flex-col justify-center gap-6">
@@ -14,12 +28,19 @@ export const SignIn = () => {
                         Acompanhe suas vendas pelo painel do parceiro
                     </p>
                 </div>
-                <form action="" className="space-y-4">
+                <form
+                    onSubmit={handleSubmit(handleSignIn)}
+                    className="space-y-4"
+                >
                     <div className="space-y-2">
                         <Label htmlFor="email">Seu email:</Label>
-                        <Input id="email" type="email" />
+                        <Input id="email" type="email" {...register('email')} />
                     </div>
-                    <Button className="w-full" type="submit">
+                    <Button
+                        disabled={isSubmitting}
+                        className="w-full"
+                        type="submit"
+                    >
                         Acessar painel
                     </Button>
                 </form>
