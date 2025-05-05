@@ -30,7 +30,7 @@ export const SignIn = () => {
             <Button
                 asChild
                 variant={'ghost'}
-                className="text-md hover:text-foreground absolute top-8 right-8 text-teal-600 transition-colors duration-700 hover:bg-teal-200"
+                className="text-md hover:text-foreground text-chart-2 hover:bg-chart-2/30 absolute top-8 right-8 transition-colors duration-700"
             >
                 <Link to="/sign-up">Seja um parceiro</Link>
             </Button>
