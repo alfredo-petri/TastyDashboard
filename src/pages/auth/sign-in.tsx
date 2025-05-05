@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -15,12 +16,24 @@ export const SignIn = () => {
 
     const handleSignIn = async (data: SignInForm) => {
         console.log(data)
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-        toast.success('Enviamos um link de autenticação para o seu e-mail')
+
+        try {
+            toast.success('Enviamos um link de autenticação para o seu e-mail')
+            await new Promise((resolve) => setTimeout(resolve, 2000))
+        } catch (error) {
+            toast.error('Erro ao efetuar o login')
+        }
     }
 
     return (
         <div className="p-8">
+            <Button
+                asChild
+                variant={'ghost'}
+                className="text-md hover:text-foreground absolute top-8 right-8 text-teal-600 transition-colors duration-700 hover:bg-teal-200"
+            >
+                <Link to="/sign-up">Seja um parceiro</Link>
+            </Button>
             <div className="flex w-[350px] flex-col justify-center gap-6">
                 <div className="flex flex-col gap-2 text-center">
                     <h1 className="text-2xl font-semibold tracking-tight">
