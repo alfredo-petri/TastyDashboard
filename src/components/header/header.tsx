@@ -1,6 +1,7 @@
 import { HandPlatter, Home, UtensilsCrossed } from 'lucide-react'
 import React from 'react'
 
+import { ThemeToggle } from '../theme/theme-toggle'
 import { Separator } from '../ui/separator'
 import { NavLink } from './nav-link'
 
@@ -20,6 +21,9 @@ export const DashBoardHeader: React.FC = () => {
                         Pedidos
                     </NavLink>
                 </nav>
+                <div className="ml-auto flex items-center gap-2">
+                    <ThemeToggle />
+                </div>
             </div>
         </div>
     )
