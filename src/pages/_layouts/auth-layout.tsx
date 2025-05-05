@@ -3,7 +3,7 @@ import { Outlet } from 'react-router'
 
 export const AuthLayout = () => {
     return (
-        <div className="grid min-h-screen min-w-screen grid-cols-2">
+        <div className="grid min-h-screen min-w-screen grid-cols-2 antialiased">
             <div className="border-foreground/5 bg-muted text-muted-foreground flex h-full min-w-full flex-col justify-between border-r p-10">
                 <div className="text-foreground flex items-center gap-3 text-lg">
                     <HandPlatter className="h-6 w-6" />
