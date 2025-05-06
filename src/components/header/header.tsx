@@ -1,6 +1,7 @@
 import { HandPlatter, Home, UtensilsCrossed } from 'lucide-react'
 import React from 'react'
 
+import { AccountMenu } from '../account-menu'
 import { ThemeToggle } from '../theme/theme-toggle'
 import { Separator } from '../ui/separator'
 import { NavLink } from './nav-link'
@@ -22,6 +23,7 @@ export const DashBoardHeader: React.FC = () => {
                     </NavLink>
                 </nav>
                 <div className="ml-auto flex items-center gap-2">
+                    <AccountMenu />
                     <ThemeToggle />
                 </div>
             </div>
