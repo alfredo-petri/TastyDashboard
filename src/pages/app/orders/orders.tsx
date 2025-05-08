@@ -9,8 +9,8 @@ import {
     TableRow,
 } from '@/components/ui/table'
 
-import { OrderTableFilters } from './order-table-filters'
-import { OrderTableRow } from './order-table-row'
+import { OrderTableFilters } from './table/order-table-filters'
+import { OrderTableRow } from './table/order-table-row'
 
 export const Orders: React.FC = () => {
     return (
