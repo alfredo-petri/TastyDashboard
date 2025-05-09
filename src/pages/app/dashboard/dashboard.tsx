@@ -2,6 +2,7 @@ import { Utensils } from 'lucide-react'
 import React from 'react'
 
 import { DashboardCard } from './dashboard-card'
+import { RevenueChart } from './revenue-chart'
 
 interface DashboardProps {}
 
@@ -34,6 +35,9 @@ export const Dashboard: React.FC<DashboardProps> = () => {
                     cardType="cancellations"
                     Icon={Utensils}
                 />
+            </div>
+            <div className="grid grid-cols-9 gap-4">
+                <RevenueChart />
             </div>
         </div>
     )
