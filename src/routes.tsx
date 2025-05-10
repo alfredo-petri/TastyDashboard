@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router'
 
 import { AppLayout } from './pages/_layouts/app-layout'
 import { AuthLayout } from './pages/_layouts/auth-layout'
+import { PageNotFound } from './pages/404'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { Orders } from './pages/app/orders/orders'
 import { SignIn } from './pages/auth/sign-in'
@@ -11,6 +12,7 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <AppLayout />,
+        errorElement: <PageNotFound />,
         children: [
             { path: '/', element: <Dashboard /> },
             {
