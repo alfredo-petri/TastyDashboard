@@ -2,6 +2,7 @@ import { Utensils } from 'lucide-react'
 import React from 'react'
 
 import { DashboardCard } from './dashboard-card'
+import { PopularProductsChart } from './popular-products-chart'
 import { RevenueChart } from './revenue-chart'
 
 interface DashboardProps {}
@@ -38,6 +39,7 @@ export const Dashboard: React.FC<DashboardProps> = () => {
             </div>
             <div className="grid grid-cols-9 gap-4">
                 <RevenueChart />
+                <PopularProductsChart />
             </div>
         </div>
     )
