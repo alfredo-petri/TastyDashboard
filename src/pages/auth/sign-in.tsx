@@ -1,7 +1,9 @@
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
 import { toast } from 'sonner'
 
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,12 +16,16 @@ export const SignIn = () => {
         formState: { isSubmitting },
     } = useForm<SignInForm>()
 
+    const { mutateAsync: authenticate } = useMutation({
+        mutationFn: signIn,
+    })
+
     const handleSignIn = async (data: SignInForm) => {
-        console.log(data)
+        const { email } = data
 
         try {
             toast.success('Enviamos um link de autenticação para o seu e-mail')
-            await new Promise((resolve) => setTimeout(resolve, 2000))
+            await authenticate({ email })
         } catch (error) {
             toast.error('Erro ao efetuar o login')
         }
