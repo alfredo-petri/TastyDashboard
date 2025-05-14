@@ -1,7 +1,9 @@
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
+import { registerRestaurant } from '@/api/register-restaurant'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -17,14 +19,24 @@ export const SignUp = () => {
         formState: { isSubmitting },
     } = useForm<SignUpForm>()
 
+    const { mutateAsync: registerRestaurants } = useMutation({
+        mutationFn: registerRestaurant,
+    })
+
     const handleSignUp = async (data: SignUpForm) => {
-        console.log(data)
+        const { restaurantName, managerName, email, phone } = data
         try {
+            await registerRestaurants({
+                restaurantName,
+                managerName,
+                email,
+                phone,
+            })
             toast.success('Parceiro cadastrado com sucesso', {
                 action: {
                     label: 'acessar painel',
                     onClick: () => {
-                        navigate('/sign-in')
+                        navigate('/sign-in?email=' + email)
                     },
                 },
                 actionButtonStyle: successActionButtonStyle,
