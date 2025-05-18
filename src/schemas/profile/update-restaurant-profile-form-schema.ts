@@ -5,6 +5,6 @@ export const updateRestaurantProfileFormSchema = z.object({
     description: z.string(),
 })
 
-export type UpdateRestaurantProfileForm = z.infer<
+export type UpdateRestaurantProfileFormSchema = z.infer<
     typeof updateRestaurantProfileFormSchema
 >
