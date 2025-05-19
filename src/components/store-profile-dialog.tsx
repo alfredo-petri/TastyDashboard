@@ -50,22 +50,38 @@ export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = () => {
         },
     })
 
+    const updateManagedRestaurantCache = ({
+        name,
+        description,
+    }: UpdateRestaurantProfileFormSchema) => {
+        const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
+            'managed-restaurant',
+        ])
+        if (cached) {
+            queryClient.setQueryData<GetManagedRestaurantResponse>(
+                ['managed-restaurant'],
+                {
+                    ...cached,
+                    name,
+                    description,
+                },
+            )
+        }
+        return { cached }
+    }
+
     const { mutateAsync: updateRestaurantProfileFn } = useMutation({
         mutationFn: updateRestauranteProfile,
-        onSuccess(_, { name, description }) {
-            const cached =
-                queryClient.getQueryData<GetManagedRestaurantResponse>([
-                    'managed-restaurant',
-                ])
-            if (cached) {
-                queryClient.setQueryData<GetManagedRestaurantResponse>(
-                    ['managed-restaurant'],
-                    {
-                        ...cached,
-                        name,
-                        description,
-                    },
-                )
+        onMutate({ name, description }) {
+            const { cached } = updateManagedRestaurantCache({
+                name,
+                description,
+            })
+            return { previousRestaurantProfile: cached }
+        },
+        onError(_error, _variables, context) {
+            if (context?.previousRestaurantProfile) {
+                updateManagedRestaurantCache(context.previousRestaurantProfile)
             }
         },
     })
