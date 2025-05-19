@@ -1,15 +1,31 @@
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { ArrowRight, Search, X } from 'lucide-react'
 import React from 'react'
 
+import { OrderStatus } from '@/components/order-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { OrderDetails } from '../order-detais'
 
-interface OrderTableRowProps {}
+interface OrderTableRowProps {
+    order: {
+        orderId: string
+        createdAt: string
+        status:
+            | 'pending'
+            | 'canceled'
+            | 'processing'
+            | 'delivering'
+            | 'delivered'
+        customerName: string
+        total: number
+    }
+}
 
-export const OrderTableRow: React.FC<OrderTableRowProps> = () => {
+export const OrderTableRow: React.FC<OrderTableRowProps> = ({ order }) => {
     return (
         <TableRow>
             <TableCell>
@@ -24,19 +40,24 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = () => {
                 </Dialog>
             </TableCell>
             <TableCell className="font-mono text-xs font-medium">
-                lkjasjlk1j1029ue02knal
+                {order.orderId}
             </TableCell>
-            <TableCell className="text-muted-foreground">há 15 min</TableCell>
+            <TableCell className="text-muted-foreground">
+                {formatDistanceToNow(order.createdAt, {
+                    locale: ptBR,
+                    addSuffix: true,
+                })}
+            </TableCell>
             <TableCell>
-                <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-slate-400"></span>
-                    <span className="text-muted-foreground font-medium">
-                        Pendente
-                    </span>
-                </div>
+                <OrderStatus status={order.status} />
             </TableCell>
-            <TableCell className="font-medium">Alfredo Augusto Petri</TableCell>
-            <TableCell className="font-medium">R$ 39.90</TableCell>
+            <TableCell className="font-medium">{order.customerName}</TableCell>
+            <TableCell className="font-medium">
+                {order.total.toLocaleString('pt-br', {
+                    style: 'currency',
+                    currency: 'BRL',
+                })}
+            </TableCell>
             <TableCell>
                 <Button variant="outline" size="sm">
                     <ArrowRight className="h-3 w-3" />

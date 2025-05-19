@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
+import { getOrders } from '@/api/get-orders'
 import { Pagination } from '@/components/pagination'
 import {
     Table,
@@ -13,6 +15,11 @@ import { OrderTableFilters } from './table/order-table-filters'
 import { OrderTableRow } from './table/order-table-row'
 
 export const Orders: React.FC = () => {
+    const { data: result } = useQuery({
+        queryKey: ['orders'],
+        queryFn: getOrders,
+    })
+
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -42,9 +49,15 @@ export const Orders: React.FC = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {Array.from({ length: 5 }).map((_, i) => {
-                                    return <OrderTableRow key={i} />
-                                })}
+                                {result &&
+                                    result.orders.map((order) => {
+                                        return (
+                                            <OrderTableRow
+                                                key={order.orderId}
+                                                order={order}
+                                            />
+                                        )
+                                    })}
                             </TableBody>
                         </Table>
                     </div>
