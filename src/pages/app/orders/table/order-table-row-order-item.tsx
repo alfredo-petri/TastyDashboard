@@ -17,9 +17,17 @@ export const OrderTableRowOrderItem: React.FC<OrderTableRowOrderItemProps> = ({
         <TableRow>
             <TableCell className="">{product}</TableCell>
             <TableCell className="w-[40px] text-center">{quantity}</TableCell>
-            <TableCell className="w-[100px] text-center">R$ {price}</TableCell>
             <TableCell className="w-[100px] text-center">
-                R$ {quantity * price}
+                {(price / 100).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                })}
+            </TableCell>
+            <TableCell className="w-[100px] text-center">
+                {((quantity * price) / 100).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                })}
             </TableCell>
         </TableRow>
     )
