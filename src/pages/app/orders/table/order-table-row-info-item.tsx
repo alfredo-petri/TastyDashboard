@@ -4,7 +4,7 @@ import { TableCell, TableRow } from '@/components/ui/table'
 
 interface OrderTableRowInfoItemProps {
     field: string
-    value: string
+    value: string | null
 }
 
 export const OrderTableRowInfoItem: React.FC<OrderTableRowInfoItemProps> = ({
