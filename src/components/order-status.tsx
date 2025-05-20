@@ -6,17 +6,19 @@ type OrderStatus =
     | 'processing'
     | 'delivering'
     | 'delivered'
+// todo | 'all'
 
 interface OrderStatusProps {
     status: OrderStatus
 }
 
 const orderStatusMap: Record<OrderStatus, string> = {
-    processing: 'Processando',
+    processing: 'Em preparo',
     pending: 'Pendente',
     canceled: 'Cancelado',
     delivered: 'Entregue',
     delivering: 'A caminho',
+    // todo all: 'Todos status',
 }
 
 export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
