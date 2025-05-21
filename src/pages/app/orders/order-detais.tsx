@@ -1,5 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import React from 'react'
 
+import { GetOrderDetails } from '@/api/get-order-details'
+import { OrderStatus } from '@/components/order-status'
 import {
     DialogContent,
     DialogDescription,
@@ -19,90 +24,103 @@ import {
 import { OrderTableRowInfoItem } from './table/order-table-row-info-item'
 import { OrderTableRowOrderItem } from './table/order-table-row-order-item'
 
-interface OrderDetailsProps {}
+interface OrderDetailsProps {
+    orderId: string
+    open: boolean
+}
 
-export const OrderDetails: React.FC<OrderDetailsProps> = () => {
+export const OrderDetails: React.FC<OrderDetailsProps> = ({
+    orderId,
+    open,
+}) => {
+    const { data: order } = useQuery({
+        queryKey: ['order', orderId],
+        queryFn: () => GetOrderDetails({ orderId }),
+        enabled: open,
+    })
+
     return (
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Pedido: 68das46as4d564</DialogTitle>
+                <DialogTitle>Pedido: {orderId}</DialogTitle>
                 <DialogDescription>Detalhes do pedido:</DialogDescription>
             </DialogHeader>
-            <div className="space-y-6">
-                <Table>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="text-muted-foreground">
-                                Status
-                            </TableCell>
-                            <TableCell className="flex justify-end">
-                                <div className="flex items-center gap-2">
-                                    <span className="h-2 w-2 rounded-full bg-slate-400"></span>
-                                    <span className="text-muted-foreground font-medium">
-                                        Pendente
-                                    </span>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <OrderTableRowInfoItem
-                            field="Cliente"
-                            value="Alfredo Augusto Petri"
-                        />
-                        <OrderTableRowInfoItem
-                            field="Cliente"
-                            value="Alfredo Augusto Petri"
-                        />
-                        <OrderTableRowInfoItem
-                            field="Contato"
-                            value="(41) 99651-6300"
-                        />
-                        <OrderTableRowInfoItem
-                            field="Email"
-                            value="alfredo@example.com"
-                        />
-                        <OrderTableRowInfoItem
-                            field="Realizado há"
-                            value="15 min"
-                        />
-                    </TableBody>
-                </Table>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Produto</TableHead>
-                            <TableHead className="w-[40px] text-center">
-                                Qtd
-                            </TableHead>
-                            <TableHead className="w-[100px] text-center">
-                                Preço
-                            </TableHead>
-                            <TableHead className="w-[100px] text-center">
-                                SubTotal
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <OrderTableRowOrderItem
-                            product="pizza big"
-                            quantity={1}
-                            price={55}
-                        />
-                        <OrderTableRowOrderItem
-                            product="pizza grande"
-                            quantity={2}
-                            price={39.9}
-                        />
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TableCell colSpan={3}>Total</TableCell>
-                            <TableCell className="text-right font-medium">
-                                R$ 134.8
-                            </TableCell>
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </div>
+            {order && (
+                <div className="space-y-6">
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell className="text-muted-foreground">
+                                    Status
+                                </TableCell>
+                                <OrderStatus status={order.status} />
+                            </TableRow>
+                            <OrderTableRowInfoItem
+                                field="Cliente"
+                                value={order.customer.name}
+                            />
+                            {/* <OrderTableRowInfoItem
+                                 field="Cliente"
+                                 value="Alfredo Augusto Petri"
+                             /> */}
+                            <OrderTableRowInfoItem
+                                field="Contato"
+                                value={order.customer.phone ?? 'Não informado'}
+                            />
+                            <OrderTableRowInfoItem
+                                field="Email"
+                                value={order.customer.email}
+                            />
+                            <OrderTableRowInfoItem
+                                field="Realizado há"
+                                value={formatDistanceToNow(order.createdAt, {
+                                    locale: ptBR,
+                                })}
+                            />
+                        </TableBody>
+                    </Table>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Produto</TableHead>
+                                <TableHead className="w-[40px] text-center">
+                                    Qtd
+                                </TableHead>
+                                <TableHead className="w-[100px] text-center">
+                                    Preço
+                                </TableHead>
+                                <TableHead className="w-[100px] text-center">
+                                    SubTotal
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {order.orderItems.map((orderItem) => (
+                                <OrderTableRowOrderItem
+                                    key={orderItem.id}
+                                    product={orderItem.product.name}
+                                    quantity={orderItem.quantity}
+                                    price={orderItem.priceInCents}
+                                />
+                            ))}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TableCell colSpan={3}>Total</TableCell>
+                                <TableCell className="text-right font-medium">
+                                    {(order.totalInCents / 100).toLocaleString(
+                                        'pt-BR',
+                                        {
+                                            style: 'currency',
+                                            currency: 'BRL',
+                                        },
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </div>
+            )}
         </DialogContent>
     )
 }
