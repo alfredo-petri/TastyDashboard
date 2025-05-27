@@ -1,18 +1,11 @@
 import React from 'react'
 
-type OrderStatus =
-    | 'pending'
-    | 'canceled'
-    | 'processing'
-    | 'delivering'
-    | 'delivered'
-    | 'all'
+import { OrderStatusType } from '@/types/order-status-status'
 
 interface OrderStatusProps {
-    status: OrderStatus
+    status: OrderStatusType
 }
-
-const orderStatusMap: Record<OrderStatus, string> = {
+const orderStatusMap: Record<OrderStatusType, string> = {
     processing: 'Em preparo',
     pending: 'Pendente',
     canceled: 'Cancelado',
