@@ -24,20 +24,20 @@ const cardMessages = {
 
 interface DashboardCardProps {
     cardType: 'ordersDay' | 'ordersMonth' | 'revenue' | 'cancellations'
-    cardValue: string
+    cardValue: string | undefined
     Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
-    result?: 'positive' | 'negative'
     resultPercentage?: number
 }
 
 export const DashboardCard: React.FC<DashboardCardProps> = ({
     cardValue,
     Icon = DollarSign,
-    result = 'positive',
     resultPercentage = 0,
     cardType,
 }) => {
     const { title, description } = cardMessages[cardType]
+
+    const result = resultPercentage >= 0 ? 'positive' : 'negative'
 
     return (
         <Card>
@@ -48,22 +48,30 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
                 <Icon className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent className="flex items-end justify-between space-x-2">
-                <span className="mt-[-10px] text-2xl font-bold tracking-tight">
-                    {cardValue}
-                </span>
-                <p className="text-muted-foreground text-sm">
-                    <span
-                        className={
-                            result === 'positive'
-                                ? 'text-emerald-500 dark:text-emerald-400'
-                                : 'text-rose-500 dark:text-rose-400'
-                        }
-                    >
-                        {result === 'positive' ? '+' : '-'}
-                        {resultPercentage}%
-                    </span>{' '}
-                    {description}
-                </p>
+                {cardValue ? (
+                    <>
+                        <span className="mt-[-10px] text-2xl font-bold tracking-tight">
+                            {cardValue}
+                        </span>
+                        <p className="text-muted-foreground text-sm">
+                            <span
+                                className={
+                                    result === 'positive' &&
+                                    cardType !== 'cancellations'
+                                        ? 'text-emerald-500 dark:text-emerald-400'
+                                        : cardType === 'cancellations' &&
+                                            result === 'negative'
+                                          ? 'text-emerald-500 dark:text-emerald-400'
+                                          : 'text-rose-500 dark:text-rose-400'
+                                }
+                            >
+                                {result === 'positive' ? '+' : ''}
+                                {resultPercentage}%
+                            </span>{' '}
+                            {description}
+                        </p>
+                    </>
+                ) : null}
             </CardContent>
         </Card>
     )
