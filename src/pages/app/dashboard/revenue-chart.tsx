@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { subDays } from 'date-fns'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import {
     CartesianGrid,
@@ -40,6 +40,15 @@ export const RevenueChart: React.FC<RevenueChartProps> = () => {
             }),
     })
 
+    const chartData = useMemo(() => {
+        return dailyRevenueInPeriod?.map((chartItem) => {
+            return {
+                date: chartItem.date,
+                receipt: chartItem.receipt / 100,
+            }
+        })
+    }, [dailyRevenueInPeriod])
+
     return (
         <Card className="col-span-6">
             <CardHeader className="flex flex-row items-center justify-between pb-8">
@@ -58,12 +67,9 @@ export const RevenueChart: React.FC<RevenueChartProps> = () => {
                 </div>
             </CardHeader>
             <CardContent>
-                {dailyRevenueInPeriod && (
+                {chartData && (
                     <ResponsiveContainer width="100%" height={240}>
-                        <LineChart
-                            data={dailyRevenueInPeriod}
-                            style={{ fontSize: 12 }}
-                        >
+                        <LineChart data={chartData} style={{ fontSize: 12 }}>
                             <XAxis
                                 dataKey="date"
                                 tickLine={false}
