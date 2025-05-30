@@ -3,6 +3,8 @@ import React from 'react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+import { MetricCardSkeleton } from './metric-card-skeleton'
+
 const cardMessages = {
     ordersDay: {
         title: 'Pedidos (dia)',
@@ -47,13 +49,13 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
                 </CardTitle>
                 <Icon className="text-muted-foreground h-4 w-4" />
             </CardHeader>
-            <CardContent className="flex items-end justify-between space-x-2">
+            <CardContent className="flex items-center justify-between space-x-2">
                 {cardValue ? (
                     <>
-                        <span className="mt-[-10px] text-2xl font-bold tracking-tight">
+                        <span className="mt-[-2px] text-2xl font-bold tracking-tight">
                             {cardValue}
                         </span>
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-muted-foreground text-right text-sm">
                             <span
                                 className={
                                     result === 'positive' &&
@@ -71,7 +73,9 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
                             {description}
                         </p>
                     </>
-                ) : null}
+                ) : (
+                    <MetricCardSkeleton />
+                )}
             </CardContent>
         </Card>
     )
