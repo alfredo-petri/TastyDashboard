@@ -15,6 +15,7 @@ import {
 
 import { OrderTableFilters } from './table/order-table-filters'
 import { OrderTableRow } from './table/order-table-row'
+import { OrderTableSkeleton } from './table/order-table-skeleton'
 
 export const Orders: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -28,7 +29,7 @@ export const Orders: React.FC = () => {
         .transform((page) => page - 1)
         .parse(searchParams.get('page') ?? '1')
 
-    const { data: result } = useQuery({
+    const { data: result, isLoading: isLoadingOrders } = useQuery({
         queryKey: ['orders', pageIndex, orderId, customerName, status],
         queryFn: () =>
             getOrders({
@@ -76,7 +77,7 @@ export const Orders: React.FC = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {result &&
+                                {result ? (
                                     result.orders.map((order) => {
                                         return (
                                             <OrderTableRow
@@ -84,7 +85,10 @@ export const Orders: React.FC = () => {
                                                 order={order}
                                             />
                                         )
-                                    })}
+                                    })
+                                ) : (
+                                    <OrderTableSkeleton />
+                                )}
                             </TableBody>
                         </Table>
                     </div>
