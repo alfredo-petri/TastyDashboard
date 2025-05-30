@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Utensils } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { getDayOrdersAmount } from '@/api/get-day-orders-amount'
 import { getMonthCanceledOrdersAmount } from '@/api/get-month-canceled-orders-amount'
