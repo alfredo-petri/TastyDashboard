@@ -21,6 +21,7 @@ import {
     TableRow,
 } from '@/components/ui/table'
 
+import { OrderDetailsSkeleton } from './order-details-skeleton'
 import { OrderTableRowInfoItem } from './table/order-table-row-info-item'
 import { OrderTableRowOrderItem } from './table/order-table-row-order-item'
 
@@ -45,7 +46,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({
                 <DialogTitle>Pedido: {orderId}</DialogTitle>
                 <DialogDescription>Detalhes do pedido:</DialogDescription>
             </DialogHeader>
-            {order && (
+            {order ? (
                 <div className="space-y-6">
                     <Table>
                         <TableBody>
@@ -59,10 +60,6 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({
                                 field="Cliente"
                                 value={order.customer.name}
                             />
-                            {/* <OrderTableRowInfoItem
-                                 field="Cliente"
-                                 value="Alfredo Augusto Petri"
-                             /> */}
                             <OrderTableRowInfoItem
                                 field="Contato"
                                 value={order.customer.phone ?? 'Não informado'}
@@ -120,6 +117,8 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({
                         </TableFooter>
                     </Table>
                 </div>
+            ) : (
+                <OrderDetailsSkeleton />
             )}
         </DialogContent>
     )
