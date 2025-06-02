@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { getManagedRestaurant } from '@/api/get-managed-restaurant'
@@ -22,6 +23,9 @@ import { Skeleton } from './ui/skeleton'
 interface AccountMenuProps {}
 
 export const AccountMenu: React.FC<AccountMenuProps> = () => {
+    const [storeProfileDialogIsOpen, setStoreProfileDialogIsOpen] =
+        useState(false)
+
     const navigate = useNavigate()
 
     const { data: profile, isLoading: isLoadingProfile } = useQuery({
@@ -48,12 +52,14 @@ export const AccountMenu: React.FC<AccountMenuProps> = () => {
     return (
         <Dialog
             onOpenChange={(open) => {
+                setStoreProfileDialogIsOpen(true)
                 if (!open) {
                     setTimeout(() => {
                         document.body.style.pointerEvents = 'auto'
-                    }, 500)
+                    }, 2500)
                 }
             }}
+            open={storeProfileDialogIsOpen}
         >
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -104,7 +110,11 @@ export const AccountMenu: React.FC<AccountMenuProps> = () => {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <StoreProfileDialog />
+            <StoreProfileDialog
+                onCloseStoreProfileDialog={() =>
+                    setStoreProfileDialogIsOpen(false)
+                }
+            />
         </Dialog>
     )
 }

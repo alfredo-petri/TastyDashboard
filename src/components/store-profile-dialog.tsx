@@ -27,9 +27,13 @@ import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 
-interface StoreProfileDialogProps {}
+interface StoreProfileDialogProps {
+    onCloseStoreProfileDialog: () => void
+}
 
-export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = () => {
+export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = ({
+    onCloseStoreProfileDialog,
+}) => {
     const queryClient = useQueryClient()
 
     const { data: managedRestaurant } = useQuery({
@@ -94,6 +98,8 @@ export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = () => {
             await updateRestaurantProfileFn({ name, description })
 
             toast.success('Perfil atualizado com sucesso')
+
+            onCloseStoreProfileDialog()
         } catch (error) {
             toast.error('Falha ao atualizar o perfil, tente novamente')
         }
@@ -131,11 +137,13 @@ export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = () => {
                     </div>
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button variant="ghost" type="button">
-                            Cancelar
-                        </Button>
-                    </DialogClose>
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        onClick={onCloseStoreProfileDialog}
+                    >
+                        Cancelar
+                    </Button>
                     <Button
                         type="submit"
                         variant="success"
