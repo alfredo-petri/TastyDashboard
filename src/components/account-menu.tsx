@@ -26,6 +26,14 @@ export const AccountMenu: React.FC<AccountMenuProps> = () => {
     const [storeProfileDialogIsOpen, setStoreProfileDialogIsOpen] =
         useState(false)
 
+    const handleStoreProfileDialogClose = () => {
+        setStoreProfileDialogIsOpen(false)
+
+        setTimeout(() => {
+            document.body.style.pointerEvents = 'auto'
+        }, 500)
+    }
+
     const navigate = useNavigate()
 
     const { data: profile, isLoading: isLoadingProfile } = useQuery({
@@ -111,9 +119,7 @@ export const AccountMenu: React.FC<AccountMenuProps> = () => {
                 </DropdownMenuContent>
             </DropdownMenu>
             <StoreProfileDialog
-                onCloseStoreProfileDialog={() =>
-                    setStoreProfileDialogIsOpen(false)
-                }
+                onCloseStoreProfileDialog={handleStoreProfileDialogClose}
             />
         </Dialog>
     )
