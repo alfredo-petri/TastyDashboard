@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { X } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -14,9 +15,9 @@ import {
     updateRestaurantProfileFormSchema,
 } from '@/schemas/profile/update-restaurant-profile-form-schema'
 
+import { CustomCloseButton } from './custom-close-button'
 import { Button } from './ui/button'
 import {
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -106,7 +107,12 @@ export const StoreProfileDialog: React.FC<StoreProfileDialogProps> = ({
     }
 
     return (
-        <DialogContent>
+        <DialogContent
+            showCloseButton={false}
+            customCloseButton={
+                <CustomCloseButton onClick={onCloseStoreProfileDialog} />
+            }
+        >
             <DialogHeader>
                 <DialogTitle>Perfil do restaurante</DialogTitle>
                 <DialogDescription>
