@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
-import { replace, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { getManagedRestaurant } from '@/api/get-managed-restaurant'
 import { getProfile } from '@/api/get-profile'
@@ -46,7 +46,15 @@ export const AccountMenu: React.FC<AccountMenuProps> = () => {
     })
 
     return (
-        <Dialog>
+        <Dialog
+            onOpenChange={(open) => {
+                if (!open) {
+                    setTimeout(() => {
+                        document.body.style.pointerEvents = 'auto'
+                    }, 500)
+                }
+            }}
+        >
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
